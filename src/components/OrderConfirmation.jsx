@@ -1,39 +1,28 @@
 import React from "react";
 import styles from "./styles/OrderConfirmation.module.css";
+import OrderConfirmationItem from "./OrderConfirmationItem";
 
 function OrderConfirmation({ order }) {
-  const { name, address, items, id } = order;
+  const orderItems = order.items;
+
+  if (!orderItems || orderItems.length === 0) {
+    return <div>example</div>;
+  }
+
+  const mappedItems = orderItems.map((item) => (
+    <div key={item.id}>
+      <OrderConfirmationItem item={item.item} />
+    </div>
+  ))
 
   return (
-    <div className={styles["order-confirmation"]}>
-      <h2>Thank you for your order, {name}</h2>
-      <div className={styles["consumer-details"]}>
-        <span>
-          <strong>Name:</strong> {name}
-        </span>
-        <span>
-          <strong>Address:</strong> {address}
-        </span>
-      </div>
-      <div>
-        <strong>Items Ordered:</strong>
-        <ul>
-          {items.map((item) => (
-            <li key={item.id}>
-              <strong>Name:</strong> {item.item.name}
-              <br />
-              <strong>Quantity:</strong> {item.quantity}
-              <br />
-              <strong>Price:</strong> ${item.item.price}
-              <br />
-              <hr />
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className={styles["order-id-container"]}>
-        <strong>Order ID:</strong> {id}
-      </div>
+    <div className={styles.orderConfirmationContent}>
+      <h2>Thank you for your order!</h2>
+      <h4>Order Id: {order.id}</h4>
+      <h4>Name: {order.name}</h4>
+      <h4>Address: {order.address}</h4>
+      <h4>Your Order:</h4>
+      <div>{mappedItems}</div>
     </div>
   );
 }

@@ -7,6 +7,22 @@ function OrderModal({ order, setOrderModal }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [validationMessage, setValidationMessage] = useState(false);
+
+  const formChecker = (nameCheck, phoneCheck, addressCheck) => {
+    if (nameCheck === "" || phoneCheck === "" || addressCheck === "") {
+      return true;
+    }
+    return false;
+  };
+
+  const phoneCheck = (phoneNumber) => {
+    const pattern = /^[\d()\-\s]+$/;
+    if (!pattern.test(phoneNumber)) {
+      return true;
+    }
+    return false;
+  };
 
   const placeOrder = async () => {
     const response = await fetch("http://localhost:3000/api/orders", {
@@ -86,6 +102,12 @@ function OrderModal({ order, setOrderModal }) {
           </div>
         </form>
 
+        {validationMessage && (
+          <p className={styles.validationMessage}>
+            Please ensure all fields are entered properly!
+          </p>
+        )}
+
         <div className={styles.orderModalButtons}>
           <button
             className={styles.orderModalClose}
@@ -95,7 +117,11 @@ function OrderModal({ order, setOrderModal }) {
           </button>
           <button
             onClick={() => {
-              placeOrder();
+              if (formChecker(name, phone, address) || phoneCheck(phone)) {
+                setValidationMessage(true);
+              } else {
+                placeOrder();
+              }
             }}
             className={styles.orderModalPlaceOrder}
           >

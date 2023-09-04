@@ -9,8 +9,9 @@ function OrderConfirmation({ order }) {
     return <div>example</div>;
   }
 
-  const mappedItems = orderItems.map((item, index) => (
-    <div key={index}>
+  const mappedItems = orderItems.map((item) => (
+    <div key={item.id}>
+      {/* Render item content here */}
       <OrderConfirmationItem item={item.item} />
     </div>
   ))
@@ -21,7 +22,7 @@ function OrderConfirmation({ order }) {
       <h4>Order Id: {order.id}</h4>
       <h4>Name: {order.name}</h4>
       <h4>Address: {order.address}</h4>
-      <h4>Your Order:</h4>
+      {/* <h4>Your Order:</h4> */}
       <div>{mappedItems}</div>
     </div>
   );

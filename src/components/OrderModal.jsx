@@ -26,7 +26,7 @@ function OrderModal({ order, setOrderModal }) {
   };
 // place order with fetch
   const placeOrder = async () => {
-    const response = await fetch("http://localhost:3000/api/orders", {
+    const response = await fetch("/api/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -42,7 +42,7 @@ function OrderModal({ order, setOrderModal }) {
     const data = await response.json();
 
     if (response.status === 200) {
-      navigate('/order-confirmation/${data.id}');
+      navigate(`/order-confirmation/${data.id}`);
     }
   };
 // code that was previously in file

@@ -1,13 +1,31 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./styles/OrderModal.module.css";
 
 function OrderModal({ order, setOrderModal }) {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [validationMessage, setValidationMessage] = useState(false);
+
+  const formChecker = (nameCheck, phoneCheck, addressCheck) => {
+    if (nameCheck === "" || phoneCheck === "" || addressCheck === "") {
+      return true;
+    }
+    return false;
+  };
+
+  const phoneCheck = (phoneNumber) => {
+    const pattern = /^[\d()\-\s]+$/;
+    if (!pattern.test(phoneNumber)) {
+      return true;
+    }
+    return false;
+  };
 
   const placeOrder = async () => {
-    const response = await fetch("/api/orders", {
+    const response = await fetch("http://localhost:3001/api/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -20,8 +38,12 @@ function OrderModal({ order, setOrderModal }) {
       })
     });
     const data = await response.json();
-    console.log(data);
+
+    if (response.status === 200) {
+      navigate(`/order-confirmation/${data.id}`);
+    }
   };
+
   return (
     <>
       <div
@@ -80,6 +102,12 @@ function OrderModal({ order, setOrderModal }) {
           </div>
         </form>
 
+        {validationMessage && (
+          <p className={styles.validationMessage}>
+            Please ensure all fields are entered properly!
+          </p>
+        )}
+
         <div className={styles.orderModalButtons}>
           <button
             className={styles.orderModalClose}
@@ -89,7 +117,11 @@ function OrderModal({ order, setOrderModal }) {
           </button>
           <button
             onClick={() => {
-              placeOrder();
+              if (formChecker(name, phone, address) || phoneCheck(phone)) {
+                setValidationMessage(true);
+              } else {
+                placeOrder();
+              }
             }}
             className={styles.orderModalPlaceOrder}
           >

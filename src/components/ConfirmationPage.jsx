@@ -10,7 +10,7 @@ function ConfirmationPage() {
   const fetchOrder = async (orderId) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/orders/${orderId}`
+        `http://localhost:3001/api/orders/${orderId}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

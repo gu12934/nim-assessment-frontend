@@ -9,8 +9,8 @@ function OrderConfirmation({ order }) {
     return <div>example</div>;
   }
 
-  const mappedItems = orderItems.map((item) => (
-    <div key={item.id}>
+  const mappedItems = orderItems.map((item, index) => (
+    <div key={index}>
       <OrderConfirmationItem item={item.item} />
     </div>
   ))

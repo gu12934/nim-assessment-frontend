@@ -23,7 +23,7 @@ function ConfirmationPage() {
       const data = await response.json();
       setOrder(data);
     } catch (error) {
-      throw new Error(error);
+      console.log(error)
     }
   };
 

@@ -4,13 +4,18 @@ import styles from "./styles/ConfirmationPage.module.css";
 import OrderConfirmation from "./OrderConfirmation";
 
 function ConfirmationPage() {
-  const { id } = useParams();
-  const [order, setOrder] = useState(null);
+  const { id } = useParams(); // get the id parameter from url
+  const [order, setOrder] = useState({});
+  // const getOrder = () => (
+  //   fetch(`/api/orders/${id}`)
+  //     .then((res) => res.json())
+  //     .then((data) => setOrder(data))
+  // )
 
-  const fetchOrder = async (orderId) => {
+  const fetchOrder = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/orders/${orderId}`
+        `http://localhost:3000/api/orders/${id}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -23,8 +28,8 @@ function ConfirmationPage() {
   };
 
   useEffect(() => {
-    fetchOrder(id);
-  }, [id]);
+    fetchOrder();
+  }, []);
 
   return (
     <div className={styles["confirmation-page"]}>

@@ -7,8 +7,9 @@ function OrderModal({ order, setOrderModal }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+ // validation message
   const [validationMessage, setValidationMessage] = useState(false);
-
+// form checker for notes
   const formChecker = (nameCheck, phoneCheck, addressCheck) => {
     if (nameCheck === "" || phoneCheck === "" || addressCheck === "") {
       return true;
@@ -23,7 +24,7 @@ function OrderModal({ order, setOrderModal }) {
     }
     return false;
   };
-
+// place order with fetch
   const placeOrder = async () => {
     const response = await fetch("http://localhost:3000/api/orders", {
       method: "POST",
@@ -37,13 +38,14 @@ function OrderModal({ order, setOrderModal }) {
         items: order
       })
     });
+    // retrieving the information
     const data = await response.json();
 
     if (response.status === 200) {
-      navigate(`/order-confirmation/${data.id}`);
+      navigate('/order-confirmation/${data.id}');
     }
   };
-
+// code that was previously in file
   return (
     <>
       <div

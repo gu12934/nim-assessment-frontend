@@ -1,29 +1,33 @@
 import React from "react";
-import styles from "./styles/OrderConfirmation.module.css";
-import OrderConfirmationItem from "./OrderConfirmationItem";
+import styles from "./styles/OrderModal.module.css";
 
 function OrderConfirmation({ order }) {
-  const orderItems = order.items;
-
-  if (!orderItems || orderItems.length === 0) {
-    return <div>example</div>;
-  }
-
-  const mappedItems = orderItems.map((item) => (
-    <div key={item.id}>
-      {/* Render item content here */}
-      <OrderConfirmationItem item={item.item} />
-    </div>
-  ))
-
   return (
-    <div className={styles.orderConfirmationContent}>
-      <h2>Thank you for your order!</h2>
-      <h4>Order Id: {order.id}</h4>
-      <h4>Name: {order.name}</h4>
-      <h4>Address: {order.address}</h4>
-      {/* <h4>Your Order:</h4> */}
-      <div>{mappedItems}</div>
+    <div className={styles.orderModalContent}>
+      <h1>Thank you for your order!</h1>
+      <br />
+      <div>
+        <div>
+          <h2>Customer Information</h2>
+          <p>Name: {order.name}</p>
+          <p>Address: {order.address}</p>
+        </div>
+        <br />
+        <div>
+          <h2>Order Information</h2>
+          <p>Order ID: {order.id}</p>
+          <br />
+          <h4>Items:</h4>
+          <br />
+          <ul>
+            {order.items.map((items) => (
+              <li key={items.item.id}>
+                {items.item.name} - ${items.item.price}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
